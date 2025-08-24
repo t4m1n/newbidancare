@@ -13,11 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Hapus komentar di bawah untuk menjalankan seeder
 
+        // 1. Membuat satu user spesifik untuk testing login
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
+            // password otomatis di-hash menjadi 'password'
         ]);
+
+        // 2. Membuat 10 user dummy lainnya secara acak
+        User::factory(10)->create();
     }
 }
