@@ -48,6 +48,28 @@ class MenuSeeder extends Seeder
             'order' => 2,
         ]);
 
+        $accessManagement = Menu::updateOrCreate([
+            'name' => 'Manajemen Barang',
+            'icon' => 'bi bi-minecart',
+            'order' => 3,
+        ]);
+
+
+        $roleManagement = Menu::updateOrCreate([
+            'parent_id' => $accessManagement->id,
+            'name' => 'Manajemen Produk',
+            'route_name' => 'products.index', // Contoh nama route
+            'order' => 2,
+        ]);
+
+        $roleManagement = Menu::updateOrCreate([
+            'parent_id' => $accessManagement->id,
+            'name' => 'Manajemen Kategori',
+            'route_name' => 'categories.index', // Contoh nama route
+            'order' => 2,
+        ]);
+
+
         // --- Berikan Hak Akses ---
 
         // Admin dapat mengakses semua menu
