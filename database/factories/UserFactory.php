@@ -19,6 +19,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->unique()->userName(), // Membuat username palsu yang unik
+            'username' => fake()->unique()->userName(), // <-- Tambahkan ini
             'email' => fake()->unique()->safeEmail(), // Membuat email palsu yang unik
             'email_verified_at' => now(),
             'password' => 'password', // Kita set password default 'password' agar mudah diingat untuk testing

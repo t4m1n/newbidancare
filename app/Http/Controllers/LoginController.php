@@ -27,7 +27,8 @@ class LoginController extends Controller
         ]);
 
         // 2. Tentukan tipe login (email atau username)
-        $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
 
         // Asumsi kolom username di database adalah 'name'
         // Jika nama kolomnya 'username', ganti 'name' menjadi 'username'
@@ -42,7 +43,7 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             // Redirect ke halaman yang dituju sebelumnya, atau ke dashboard
-            return redirect()->intended('/');
+            return redirect()->intended('/dashboard');
         }
 
         // 4. Jika gagal, kembali ke halaman login dengan pesan error
@@ -64,4 +65,6 @@ class LoginController extends Controller
 
         return redirect('/login');
     }
+
+
 }

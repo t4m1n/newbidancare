@@ -10,6 +10,10 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
+    ->withProviders([ // <-- Cari atau tambahkan method ini
+        // ... provider lain jika ada
+        App\Providers\ViewServiceProvider::class, // <-- Daftarkan di sini
+    ])
     ->withMiddleware(function (Middleware $middleware): void {
         //
     })
