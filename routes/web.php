@@ -5,6 +5,10 @@ use App\Http\Controllers\Admin\UserController; // <-- Tambahkan ini
 use App\Http\Controllers\Admin\RoleController; // <-- Tambahkan ini
 use App\Http\Controllers\Admin\ProductController; // <-- Tambahkan ini
 use App\Http\Controllers\Admin\CategoryController; // <-- Tambahkan ini
+use App\Http\Controllers\Admin\PermissionController; // <-- 1. Tambahkan import
+use App\Http\Controllers\Admin\MenuController; // <-- 1. Tambahkan import
+
+
 
 // Halaman utama sekarang langsung redirect ke login jika belum terautentikasi
 Route::get('/', function () {
@@ -29,6 +33,10 @@ Route::middleware('auth')->group(function () {
     // --- RUTE BARU UNTUK MANAJEMEN AKSES ---
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
+    Route::resource('permissions', PermissionController::class); // <-- 2. Tambahkan baris ini
+    Route::resource('menus', MenuController::class); // <-- 2. Tambahkan baris ini
+
+
     // -----------------------------------------
 
     // --- RUTE BARU UNTUK MANAJEMEN Barang ---
