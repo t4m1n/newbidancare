@@ -40,43 +40,61 @@
                 </div>
             </div>
         </div>
+
         <div class="sidebar-menu">
             <ul class="menu">
+                <li class="sidebar-title">Menu</li>
 
-                {{-- Loop untuk setiap menu utama yang diizinkan --}}
                 @if (isset($sidebarMenus) && $sidebarMenus->count() > 0)
                     @foreach ($sidebarMenus as $menu)
                         {{-- Cek apakah menu ini adalah parent (punya anak/sub-menu) --}}
                         @if ($menu->children->isNotEmpty())
-                            <li class="sidebar-item has-sub">
+                            @php
+                                // Logika untuk Parent Menu Active
+                                // 1. Ambil semua nama route dari anak-anaknya
+                                $childRoutes = $menu->children->pluck('route_name')->toArray();
+                                // 2. Tambahkan wildcard (*) untuk mencakup semua aksi (index, create, edit, dll.)
+                                $childRoutePatterns = array_map(
+                                    fn($routeName) => $routeName ? explode('.', $routeName)[0] . '.*' : null,
+                                    $childRoutes,
+                                );
+                                // 3. Hapus duplikat dan null
+                                $activePatterns = array_filter(array_unique($childRoutePatterns));
+                            @endphp
+                            <li class="sidebar-item has-sub {{ Route::is($activePatterns) ? 'active' : '' }}">
                                 <a href="#" class='sidebar-link'>
                                     <i class="{{ $menu->icon }}"></i>
                                     <span>{{ $menu->name }}</span>
                                 </a>
-                                <ul class="submenu">
+                                <ul class="submenu {{ Route::is($activePatterns) ? 'active' : '' }}">
                                     {{-- Loop untuk setiap sub-menu --}}
                                     @foreach ($menu->children->sortBy('order') as $submenu)
-                                        <li class="submenu-item">
-                                            <a href="{{ $submenu->route_name ? route($submenu->route_name) : '#' }}"
-                                                class="submenu-link">
-                                                {{ $submenu->name }}
-                                            </a>
-                                        </li>
+                                        @if ($submenu->route_name)
+                                            <li
+                                                class="submenu-item {{ Route::is($submenu->route_name) ? 'active' : '' }}">
+                                                <a href="{{ route($submenu->route_name) }}" class="submenu-link">
+                                                    {{ $submenu->name }}
+                                                </a>
+                                            </li>
+                                        @endif
                                     @endforeach
                                 </ul>
                             </li>
                         @else
                             {{-- Jika ini menu biasa (tanpa sub-menu) --}}
-                            <li class="sidebar-item">
-                                <a href="{{ $menu->route_name ? route($menu->route_name) : '#' }}" class='sidebar-link'>
-                                    <i class="{{ $menu->icon }}"></i>
-                                    <span>{{ $menu->name }}</span>
-                                </a>
-                            </li>
+                            @if ($menu->route_name)
+                                <li class="sidebar-item {{ Route::is($menu->route_name) ? 'active' : '' }}">
+                                    <a href="{{ route($menu->route_name) }}" class='sidebar-link'>
+                                        <i class="{{ $menu->icon }}"></i>
+                                        <span>{{ $menu->name }}</span>
+                                    </a>
+                                </li>
+                            @endif
                         @endif
                     @endforeach
                 @endif
 
+                <li class="sidebar-title">Akun</li>
                 <li class="sidebar-item">
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                         class='sidebar-link'>
@@ -87,8 +105,9 @@
                         @csrf
                     </form>
                 </li>
-
             </ul>
         </div>
+
+
     </div>
 </div>

@@ -12,7 +12,8 @@ class PermissionSeeder extends Seeder
     {
         // Ambil Menu Induk untuk pengelompokan
         $menuRBAC = Menu::where('name', 'RBAC')->first();
-        $menuBarang = Menu::where('name', 'Manajemen Barang')->first();
+        $menuProduk = Menu::where('name', 'Produk')->first();
+        $menuKategori = Menu::where('name', 'Kategori')->first();
 
         // Daftar Izin (Permissions)
         $permissions = [
@@ -23,18 +24,18 @@ class PermissionSeeder extends Seeder
             'role.delete' => ['name' => 'Hapus Role', 'menu_id' => $menuRBAC->id],
 
             // Produk
-            'product.view' => ['name' => 'Lihat Produk', 'menu_id' => $menuBarang->id],
-            'product.create' => ['name' => 'Tambah Produk', 'menu_id' => $menuBarang->id],
-            'product.edit' => ['name' => 'Edit Produk', 'menu_id' => $menuBarang->id],
-            'product.delete' => ['name' => 'Hapus Produk', 'menu_id' => $menuBarang->id],
-            'product.export' => ['name' => 'Export Produk', 'menu_id' => $menuBarang->id],
+            'product.view' => ['name' => 'Lihat Produk', 'menu_id' => $menuProduk->id],
+            'product.create' => ['name' => 'Tambah Produk', 'menu_id' => $menuProduk->id],
+            'product.edit' => ['name' => 'Edit Produk', 'menu_id' => $menuProduk->id],
+            'product.delete' => ['name' => 'Hapus Produk', 'menu_id' => $menuProduk->id],
+            'product.export' => ['name' => 'Export Produk', 'menu_id' => $menuProduk->id],
 
             // Kategori
-            'category.view' => ['name' => 'Lihat Kategori', 'menu_id' => $menuBarang->id],
-            'category.create' => ['name' => 'Tambah Kategori', 'menu_id' => $menuBarang->id],
-            'category.edit' => ['name' => 'Edit Kategori', 'menu_id' => $menuBarang->id],
-            'category.delete' => ['name' => 'Hapus Kategori', 'menu_id' => $menuBarang->id],
-            'category.export' => ['name' => 'Export Kategori', 'menu_id' => $menuBarang->id],
+            'category.view' => ['name' => 'Lihat Kategori', 'menu_id' => $menuKategori->id],
+            'category.create' => ['name' => 'Tambah Kategori', 'menu_id' => $menuKategori->id],
+            'category.edit' => ['name' => 'Edit Kategori', 'menu_id' => $menuKategori->id],
+            'category.delete' => ['name' => 'Hapus Kategori', 'menu_id' => $menuKategori->id],
+            'category.export' => ['name' => 'Export Kategori', 'menu_id' => $menuKategori->id],
         ];
 
         // Buat Permissions

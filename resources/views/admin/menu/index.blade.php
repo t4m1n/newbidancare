@@ -4,7 +4,12 @@
     <div class="page-heading">
         <h3>Manajemen Menu</h3>
     </div>
-
+    <div class="mb-3">
+        {{-- Tombol Tambah --}}
+        {{-- @can('products.create') --}}
+            <a href="{{route('menus.create')}}" class="btn btn-primary">Tambah Menu</a>
+        {{-- @endcan --}}
+    </div>
 
     <div class="page-content">
         <section class="row">
