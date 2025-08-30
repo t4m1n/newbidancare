@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('assets/extensions/sweetalert2/sweetalert2.min.css') }}">
+@endpush
+
 @section('content')
     <div class="page-heading">
         <h3>Manajemen Menu</h3>
@@ -7,18 +11,25 @@
     <div class="mb-3">
         {{-- Tombol Tambah --}}
         {{-- @can('products.create') --}}
-            <a href="{{route('menus.create')}}" class="btn btn-primary">Tambah Menu</a>
+        <a href="{{ route('menus.create') }}" class="btn btn-primary">Tambah Menu</a>
         {{-- @endcan --}}
     </div>
 
     <div class="page-content">
+
         <section class="row">
             <section class="section">
                 <div class="row" id="table-bordered">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Bordered table</h4>
+                                @if (session('success'))
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        {{ session('success') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                @endif
                             </div>
                             <div class="card-content">
                                 <table class="table table-striped table-hover">
@@ -56,9 +67,17 @@
                                                     {{-- @endcan --}}
 
                                                     {{-- @can('menu.delete') --}}
-                                                    <button type="button" class="btn btn-sm btn-danger">
-                                                        <i class="bi bi-trash3-fill"></i>
-                                                    </button>
+                                                    <form action="{{ route('menus.destroy', $menu) }}" method="POST"
+                                                        class="d-inline" id="delete-form-{{ $menu->id }}">
+                                                        @csrf
+                                                        @method('DELETE')
+
+                                                        {{-- Tambahkan class "btn-delete" untuk target JavaScript --}}
+                                                        <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                                            data-form-id="delete-form-{{ $menu->id }}">
+                                                            <i class="bi bi-trash3-fill"></i>
+                                                        </button>
+                                                    </form>
                                                     {{-- @endcan --}}
                                                 </td>
                                             </tr>
@@ -83,3 +102,43 @@
         </section>
     </div>
 @endsection
+
+
+
+@push('scripts')
+    <script src="{{ asset('assets/extensions/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script>
+        // Tunggu sampai semua HTML dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil semua tombol dengan kelas .btn-delete
+            const deleteButtons = document.querySelectorAll('.btn-delete');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault(); // Mencegah aksi default tombol
+
+                    // Ambil form terdekat dari tombol yang diklik
+                    const form = this.closest('form');
+
+                    // Tampilkan SweetAlert
+                    Swal.fire({
+                        title: 'Anda yakin?',
+                        text: "Data yang dihapus tidak dapat dikembalikan!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        // Jika pengguna menekan "Ya, hapus!"
+                        if (result.isConfirmed) {
+                            // Submit form untuk menghapus data
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+@endpush

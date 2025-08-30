@@ -74,55 +74,59 @@ class MenuController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Menu $menu)
     {
-        //
+
+        // 1. Otorisasi: Pastikan user punya izin 'menu.edit'
+        // $this->authorize('menu.edit');
+
+        // 2. Ambil semua menu untuk pilihan "Induk Menu"
+        $parentMenus = Menu::all();
+
+        // 3. Ambil daftar ikon
+        $icons = IconHelper::getIcons(); // Pastikan method ini ada dari langkah sebelumnya
+
+        // 4. Kirim semua data yang dibutuhkan ke view
+        return view('admin.menu.edit', compact('menu', 'parentMenus', 'icons'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Menu $menu)
     {
-        //
+        // 1. Otorisasi: Pastikan user punya izin 'menu.edit'
+        // $this->authorize('menu.edit');
+
+        // 2. Validasi input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'parent_id' => 'nullable|exists:menus,id',
+            // Validasi unik, tapi abaikan untuk menu saat ini
+            'route_name' => 'nullable|string|max:255|unique:menus,route_name,' . $menu->id,
+            'icon' => 'nullable|string|max:255',
+            'order' => 'required|integer',
+        ]);
+
+        // 3. Update data di database
+        $menu->update($validated);
+
+        // 4. Redirect ke halaman index dengan pesan sukses
+        return redirect()->route('menus.index')->with('success', 'Menu berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Menu $menu)
     {
-        //
-    }
+        // 1. Otorisasi: Pastikan user punya izin 'menu.delete'
+        // $this->authorize('menu.delete');
 
-    private function getBootstrapIcons()
-    {
-        // Ini hanya sebagian kecil contoh, daftar lengkapnya sangat panjang.
-        // Anda bisa menambahkannya sesuai kebutuhan.
-        return [
-            'bi bi-app',
-            'bi bi-grid-fill',
-            'bi bi-shield-shaded',
-            'bi bi-box-seam-fill',
-            'bi bi-person-fill',
-            'bi bi-people-fill',
-            'bi bi-gear-fill',
-            'bi bi-card-list',
-            'bi bi-table',
-            'bi bi-bar-chart-fill',
-            'bi bi-pie-chart-fill',
-            'bi bi-file-earmark-text-fill',
-            'bi bi-calendar-event-fill',
-            'bi bi-chat-dots-fill',
-            'bi bi-envelope-fill',
-            'bi bi-star-fill',
-            'bi bi-bookmark-fill',
-            'bi bi-bell-fill',
-            'bi bi-house-door-fill',
-            'bi bi-folder-fill',
-            'bi bi-tag-fill',
-            'bi bi-cart-fill',
-            'bi bi-credit-card-fill',
-        ];
+        // 2. Hapus data dari database
+        $menu->delete();
+
+        // 3. Redirect kembali ke halaman index dengan pesan sukses
+        return redirect()->route('menus.index')->with('success', 'Menu berhasil dihapus.');
     }
 }
