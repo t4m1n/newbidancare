@@ -19,7 +19,7 @@ class PermissionController extends Controller
         return view('admin.permissions.index', compact('permissions'));
     }
 
-    /**
+    /** 
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
