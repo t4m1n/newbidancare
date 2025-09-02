@@ -25,7 +25,7 @@ class Menu extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'menu_role');
+        return $this->belongsToMany(Role::class, 'menu_role')->withTimestamps();;
     }
 
     public function parent()

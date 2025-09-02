@@ -23,16 +23,16 @@ class Role extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'role_user');
+        return $this->belongsToMany(User::class, 'role_user')->withTimestamps();
     }
 
     public function menus()
     {
-        return $this->belongsToMany(Menu::class, 'menu_role');
+        return $this->belongsToMany(Menu::class, 'menu_role')->withTimestamps();
     }
 
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'permission_role');
+        return $this->belongsToMany(Permission::class, 'permission_role')->withTimestamps();
     }
 }
