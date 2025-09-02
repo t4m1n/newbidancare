@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="page-heading">
-        <h3>Product</h3>
+        <h3>Category</h3>
     </div>
     <div class="page-content">
 
@@ -11,7 +11,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="card-title">
-                        Halaman Product
+                        Halaman Category
                     </h5>
                 </div>
             </div>

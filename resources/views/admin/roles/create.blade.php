@@ -38,10 +38,11 @@
                     <h5>Hak Akses Izin (Permissions)</h5>
                     <p class="text-muted">Pilih izin yang akan diberikan untuk peran ini.</p>
 
+                    {{-- Desain Menggunakan Card per Grup Menu --}}
                     <div class="row mt-3">
                         @forelse ($menus as $menu)
                             <div class="col-md-6 col-lg-4 mb-4">
-                                <div class="card shadow-sm">
+                                <div class="card shadow-sm h-100">
                                     <div class="card-header bg-light">
                                         <h6 class="mb-0">{{ $menu->name }}</h6>
                                     </div>
@@ -56,7 +57,8 @@
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox"
                                                                     name="permissions[]" value="{{ $permission->id }}"
-                                                                    id="perm-{{ $permission->id }}">
+                                                                    id="perm-{{ $permission->id }}"
+                                                                    {{ is_array(old('permissions')) && in_array($permission->id, old('permissions')) ? 'checked' : '' }}>
                                                                 <label class="form-check-label"
                                                                     for="perm-{{ $permission->id }}">
                                                                     {{ $permission->name }}
@@ -74,7 +76,8 @@
                                             @forelse ($menu->permissions as $permission)
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" name="permissions[]"
-                                                        value="{{ $permission->id }}" id="perm-{{ $permission->id }}">
+                                                        value="{{ $permission->id }}" id="perm-{{ $permission->id }}"
+                                                        {{ is_array(old('permissions')) && in_array($permission->id, old('permissions')) ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="perm-{{ $permission->id }}">
                                                         {{ $permission->name }}
                                                     </label>

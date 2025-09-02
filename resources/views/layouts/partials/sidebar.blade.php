@@ -98,6 +98,12 @@
                 @endif
 
                 <li class="sidebar-title">Akun</li>
+                <li class="sidebar-item {{ Route::is('profile.edit') ? 'active' : '' }}">
+                    <a href="{{ route('profile.edit') }}" class='sidebar-link'>
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
                 <li class="sidebar-item">
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                         class='sidebar-link'>
@@ -108,6 +114,8 @@
                         @csrf
                     </form>
                 </li>
+
+
             </ul>
         </div>
 
