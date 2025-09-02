@@ -2,22 +2,23 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\Admin\UserController; // <-- Tambahkan ini
-use App\Http\Controllers\Admin\RoleController; // <-- Tambahkan ini
-use App\Http\Controllers\Admin\ProductController; // <-- Tambahkan ini
-use App\Http\Controllers\Admin\CategoryController; // <-- Tambahkan ini
-use App\Http\Controllers\Admin\PermissionController; // <-- 1. Tambahkan import
-use App\Http\Controllers\Admin\MenuController; // <-- 1. Tambahkan import
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\ActivityLogController;
 
 
 
-// Halaman utama sekarang langsung redirect ke login jika belum terautentikasi
+
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Grup untuk Rute Tamu (yang belum login)
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
@@ -35,8 +36,8 @@ Route::middleware('auth')->group(function () {
     // --- RUTE BARU UNTUK MANAJEMEN AKSES ---
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
-    Route::resource('permissions', PermissionController::class); // <-- 2. Tambahkan baris ini
-    Route::resource('menus', MenuController::class); // <-- 2. Tambahkan baris ini
+    Route::resource('permissions', PermissionController::class); 
+    Route::resource('menus', MenuController::class);
 
 
 
@@ -51,6 +52,9 @@ Route::middleware('auth')->group(function () {
     // --- RUTE UNTUK PROFILE ---
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('audit-logs', [ActivityLogController::class, 'index'])->name('audit-logs.index');
+
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });

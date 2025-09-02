@@ -2,21 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; // <-- Tambahan 1
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Menu;
+use App\Traits\LogsAllActivity;
 
 class Role extends Model
 {
-    use HasFactory; // <-- Tambahan 1
+    use HasFactory, LogsAllActivity;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [ // <-- Tambahan 2
+    protected $fillable = [
         'name',
         'slug',
     ];

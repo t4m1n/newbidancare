@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Role;
+use App\Traits\LogsAllActivity;
 
 class User extends Authenticatable
 {
     // 2. Tambahkan trait ini di dalam class
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, LogsAllActivity;
 
 
     /**

@@ -6,10 +6,9 @@
 
 @section('content')
     <div class="page-heading">
-        <h3>Manajemen Role</h3>
+        <h3>{{ $pageTitle ?? 'Default Judul' }}</h3>
     </div>
     <div class="page-content">
-        {{-- Tampilkan notifikasi sukses --}}
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
@@ -23,7 +22,6 @@
                     <h5 class="card-title">
                         Daftar Role
                     </h5>
-                    {{-- Tombol Tambah Role, dilindungi oleh permission --}}
                     @can('role.create')
                         <a href="{{ route('roles.create') }}" class="btn btn-primary">
                             <i class="bi bi-plus-lg"></i> Tambah Role
@@ -51,14 +49,12 @@
                                         <span class="badge bg-secondary">{{ $role->slug }}</span>
                                     </td>
                                     <td class="text-center">
-                                        {{-- Tombol Edit, dilindungi oleh permission --}}
                                         @can('role.edit')
                                             <a href="{{ route('roles.edit', $role) }}" class="btn btn-sm btn-warning">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
                                         @endcan
 
-                                        {{-- Tombol Hapus, dilindungi oleh permission --}}
                                         @can('role.delete')
                                             <form action="{{ route('roles.destroy', $role) }}" method="POST" class="d-inline">
                                                 @csrf
@@ -81,7 +77,6 @@
                     </table>
                 </div>
 
-                {{-- Paginasi kustom kita --}}
                 <div class="mt-3">
                     {{ $roles->links('components.pagination') }}
                 </div>

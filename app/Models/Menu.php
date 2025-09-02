@@ -2,20 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; // <-- Tambahan
+use Illuminate\Database\Eloquent\Factories\HasFactory; 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Role;
+use App\Traits\LogsAllActivity;
 
 class Menu extends Model
 {
-    use HasFactory; // <-- Tambahan
+    use HasFactory, LogsAllActivity;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [ // <-- Tambahan
+    protected $fillable = [
         'parent_id',
         'name',
         'route_name',
