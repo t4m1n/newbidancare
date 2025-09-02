@@ -89,8 +89,8 @@ class RoleController extends Controller
             ->orderBy('order')
             ->get();
 
-        // Kirim data role yang akan diedit dan data menu ke view
-        return view('admin.roles.edit', compact('role', 'menus'));
+
+        return view('admin.roles.edit', compact('role', 'menus', 'viewPermissionIds'));
     }
 
 

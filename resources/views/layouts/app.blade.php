@@ -33,6 +33,8 @@
     {{-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> --}}
     <script src="{{ asset('assets/static/js/components/dark.js') }}"></script>
     <script src="{{ asset('assets/compiled/js/app.js') }}"></script>
+    {{-- TAMBAHKAN SCRIPT ALPINE.JS DI SINI --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @stack('scripts')
 
 
