@@ -15,7 +15,7 @@ class MenuController extends Controller
     public function index()
     {
         // 2. Ambil semua data menu dengan relasi parent-nya untuk efisiensi
-        $menus = Menu::with('parent')->latest()->paginate(5);
+        $menus = Menu::with('parent')->latest()->paginate(10);
 
         // 3. Kirim data ke view
         return view('admin.menu.index', compact('menus'));

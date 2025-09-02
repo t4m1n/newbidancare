@@ -47,31 +47,30 @@
 
                 @if (isset($sidebarMenus) && $sidebarMenus->count() > 0)
                     @foreach ($sidebarMenus as $menu)
-                        {{-- Cek apakah menu ini adalah parent (punya anak/sub-menu) --}}
+                        {{-- Cek apakah menu punya sub-menu --}}
                         @if ($menu->children->isNotEmpty())
                             @php
-                                // Logika untuk Parent Menu Active
-                                // 1. Ambil semua nama route dari anak-anaknya
-                                $childRoutes = $menu->children->pluck('route_name')->toArray();
-                                // 2. Tambahkan wildcard (*) untuk mencakup semua aksi (index, create, edit, dll.)
-                                $childRoutePatterns = array_map(
-                                    fn($routeName) => $routeName ? explode('.', $routeName)[0] . '.*' : null,
-                                    $childRoutes,
-                                );
-                                // 3. Hapus duplikat dan null
-                                $activePatterns = array_filter(array_unique($childRoutePatterns));
+                                // Ambil semua nama route dari anak-anaknya dan buat polanya
+                                $childRoutePatterns = $menu->children
+                                    ->pluck('route_name')
+                                    ->filter() // Hapus null/empty
+                                    ->map(fn($routeName) => explode('.', $routeName)[0] . '.*')
+                                    ->unique()
+                                    ->toArray();
                             @endphp
-                            <li class="sidebar-item has-sub {{ Route::is($activePatterns) ? 'active' : '' }}">
+                            <li class="sidebar-item has-sub {{ Route::is($childRoutePatterns) ? 'active' : '' }}">
                                 <a href="#" class='sidebar-link'>
                                     <i class="{{ $menu->icon }}"></i>
                                     <span>{{ $menu->name }}</span>
                                 </a>
-                                <ul class="submenu {{ Route::is($activePatterns) ? 'active' : '' }}">
-                                    {{-- Loop untuk setiap sub-menu --}}
+                                <ul class="submenu {{ Route::is($childRoutePatterns) ? 'active' : '' }}">
                                     @foreach ($menu->children->sortBy('order') as $submenu)
                                         @if ($submenu->route_name)
-                                            <li
-                                                class="submenu-item {{ Route::is($submenu->route_name) ? 'active' : '' }}">
+                                            @php
+                                                // Ambil nama dasar rute untuk submenu, contoh: 'users' dari 'users.index'
+                                                $baseRoute = explode('.', $submenu->route_name)[0];
+                                            @endphp
+                                            <li class="submenu-item {{ Route::is($baseRoute . '.*') ? 'active' : '' }}">
                                                 <a href="{{ route($submenu->route_name) }}" class="submenu-link">
                                                     {{ $submenu->name }}
                                                 </a>
@@ -83,7 +82,11 @@
                         @else
                             {{-- Jika ini menu biasa (tanpa sub-menu) --}}
                             @if ($menu->route_name)
-                                <li class="sidebar-item {{ Route::is($menu->route_name) ? 'active' : '' }}">
+                                @php
+                                    // Ambil nama dasar rute, contoh: 'dashboard' dari 'dashboard'
+                                    $baseRoute = explode('.', $menu->route_name)[0];
+                                @endphp
+                                <li class="sidebar-item {{ Route::is($baseRoute . '.*') ? 'active' : '' }}">
                                     <a href="{{ route($menu->route_name) }}" class='sidebar-link'>
                                         <i class="{{ $menu->icon }}"></i>
                                         <span>{{ $menu->name }}</span>

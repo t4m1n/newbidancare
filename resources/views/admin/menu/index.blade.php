@@ -8,14 +8,14 @@
     <div class="page-heading">
         <h3>Manajemen Menu</h3>
     </div>
-    <div class="mb-3">
-        {{-- Tombol Tambah --}}
-        {{-- @can('products.create') --}}
-        <a href="{{ route('menus.create') }}" class="btn btn-primary">Tambah Menu</a>
-        {{-- @endcan --}}
-    </div>
 
     <div class="page-content">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
         <section class="row">
             <section class="section">
@@ -23,13 +23,14 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                @if (session('success'))
-                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        {{ session('success') }}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="Close"></button>
-                                    </div>
-                                @endif
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="card-title">Daftar Menu</h5>
+                                    {{-- @can('permission.create') --}}
+                                    <a href="{{ route('menus.create') }}" class="btn btn-primary"><i
+                                            class="bi bi-plus-lg"></i> Tambah Menu</a>
+                                    {{-- @endcan --}}
+                                </div>
+
                             </div>
                             <div class="card-content">
                                 <table class="table table-striped table-hover">
