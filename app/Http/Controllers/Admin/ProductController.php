@@ -4,18 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class ProductController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        if (Gate::denies('products.view')) {
-            abort(403);
-        }
+        $this->authorize("product.view");
         return view("admin.product.index");
     }
 
@@ -24,6 +22,8 @@ class ProductController extends Controller
      */
     public function create()
     {
+
+        $this->authorize("product.create");
         //
     }
 
@@ -32,6 +32,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->authorize("product.create");
         //
     }
 
@@ -48,6 +50,8 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
+
+        $this->authorize("product.edit");
         //
     }
 
@@ -56,6 +60,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
+        $this->authorize("product.edit");
         //
     }
 
@@ -64,6 +70,8 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
+
+        $this->authorize("product.delete");
         //
     }
 }

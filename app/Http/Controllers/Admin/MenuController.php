@@ -3,17 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Menu; // <-- Import model Menu
+use App\Models\Menu; 
 use Illuminate\Http\Request;
 use App\Helpers\IconHelper;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class MenuController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        // 1. Otorisasi: Pastikan user punya izin 'menu.view'
+        $this->authorize('menu.view');
+
+
         // 2. Ambil semua data menu dengan relasi parent-nya untuk efisiensi
         $menus = Menu::with('parent')->latest()->paginate(10);
 
@@ -26,6 +32,8 @@ class MenuController extends Controller
      */
     public function create()
     {
+        $this->authorize('menu.create');
+
         $parentMenus = Menu::whereNull('route_name')->orWhere('route_name', '=', '')->get();
         // Siapkan daftar ikon untuk dikirim ke view
         $icons = IconHelper::getIcons();
@@ -39,7 +47,7 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         // 1. Otorisasi: Pastikan user punya izin 'menu.create'
-        // $this->authorize('menu.create');
+        $this->authorize('menu.create');
 
         // 2. Validasi input dari form
         $validated = $request->validate([
@@ -78,7 +86,7 @@ class MenuController extends Controller
     {
 
         // 1. Otorisasi: Pastikan user punya izin 'menu.edit'
-        // $this->authorize('menu.edit');
+        $this->authorize('menu.edit');
 
         // 2. Ambil semua menu untuk pilihan "Induk Menu"
         $parentMenus = Menu::all();
@@ -96,7 +104,7 @@ class MenuController extends Controller
     public function update(Request $request, Menu $menu)
     {
         // 1. Otorisasi: Pastikan user punya izin 'menu.edit'
-        // $this->authorize('menu.edit');
+        $this->authorize('menu.edit');
 
         // 2. Validasi input
         $validated = $request->validate([
@@ -121,7 +129,7 @@ class MenuController extends Controller
     public function destroy(Menu $menu)
     {
         // 1. Otorisasi: Pastikan user punya izin 'menu.delete'
-        // $this->authorize('menu.delete');
+        $this->authorize('menu.delete');
 
         // 2. Hapus data dari database
         $menu->delete();

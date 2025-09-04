@@ -6,24 +6,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Permission;
 use App\Models\Menu;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PermissionController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $this->authorize("permission.view");
         $permissions = Permission::with('menu')->latest()->paginate(10);
 
         return view('admin.permissions.index', compact('permissions'));
     }
 
-    /** 
+    /**
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
     {
+
+        $this->authorize("permission.create");
         $menus = Menu::whereNotNull('route_name')->orWhere('route_name', '!=', '')->get();
         return view('admin.permissions.create', compact('menus'));
     }
@@ -33,6 +38,8 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->authorize("permission.create");
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:permissions,slug',
@@ -57,6 +64,8 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
+
+        $this->authorize("permission.edit");
         $menus = Menu::all();
 
         return view('admin.permissions.edit', compact('permission', 'menus'));
@@ -67,6 +76,8 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
+
+        $this->authorize("permission.edit");
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:permissions,slug,' . $permission->id,
@@ -83,6 +94,8 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
+
+        $this->authorize("permission.delete");
         $permission->delete();
         return redirect()->route('permissions.index')->with('success','Permission deleted successfully.');
     }

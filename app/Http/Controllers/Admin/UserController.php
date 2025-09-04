@@ -8,16 +8,21 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\Support\Facades\Auth; // <-- Pastikan ini ada di atas file controller Anda
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 
 class UserController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $this->authorize("user.view");
+
         $users = User::with('roles')->latest()->paginate(10);
 
         return view("admin.users.index", compact('users'));
@@ -28,6 +33,8 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize("user.create");
+
         $roles = Role::all();
         return view('admin.users.create', compact('roles'));
     }
@@ -37,6 +44,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize("user.create");
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
@@ -68,6 +76,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize("user.edit");
+
         $roles = Role::all();
 
         return view('admin.users.edit', compact('user', 'roles'));
@@ -78,7 +88,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
+        $this->authorize("user.create");
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
@@ -110,6 +120,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize("user.delete");
         if (Auth::id() == $user->id) {
             return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
         }

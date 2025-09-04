@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CategoryController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $this->authorize('category.view');
         return view("admin.category.index");
     }
 
@@ -20,6 +23,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $this->authorize('category.create');
         //
     }
 
@@ -28,6 +32,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('category.create');
         //
     }
 
@@ -44,6 +49,7 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
+        $this->authorize('category.edit');
         //
     }
 
@@ -52,6 +58,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $this->authorize('category.edit');
         //
     }
 
@@ -60,6 +67,7 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->authorize('category.delete');
         //
     }
 }
