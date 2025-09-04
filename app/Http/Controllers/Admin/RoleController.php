@@ -91,7 +91,7 @@ class RoleController extends Controller
             ->get();
 
 
-        return view('admin.roles.edit', compact('role', 'menus', 'viewPermissionIds'));
+        return view('admin.roles.edit', compact('role', 'menus',));
     }
 
 

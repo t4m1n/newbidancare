@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->authorize("user.view");
+        $this->authorize("users.view");
 
         $users = User::with('roles')->latest()->paginate(10);
 
@@ -33,7 +33,7 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        $this->authorize("user.create");
+        $this->authorize("users.create");
 
         $roles = Role::all();
         return view('admin.users.create', compact('roles'));
@@ -44,7 +44,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize("user.create");
+        $this->authorize("users.create");
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
@@ -76,7 +76,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $this->authorize("user.edit");
+        $this->authorize("users.edit");
 
         $roles = Role::all();
 
@@ -88,7 +88,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $this->authorize("user.create");
+        $this->authorize("users.create");
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
@@ -120,7 +120,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $this->authorize("user.delete");
+        $this->authorize("users.delete");
         if (Auth::id() == $user->id) {
             return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
         }

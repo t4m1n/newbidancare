@@ -1,61 +1,123 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Admin Starter Kit 🚀
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sebuah starter kit admin dashboard yang dibangun menggunakan **Laravel 12** untuk mempercepat proses pengembangan proyek Anda. Proyek ini dirancang dengan pendekatan yang jelas dan *straightforward*, sehingga mudah dipahami bahkan oleh developer yang baru memulai dengan Laravel.
 
-## About Laravel
+Sangat cocok digunakan untuk berbagai kebutuhan, mulai dari proyek internal **kantor**, proyek **freelance**, **tugas akhir/skripsi**, hingga sebagai fondasi untuk proyek skala besar lainnya.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Modul-modul dasar yang paling sering dibutuhkan dalam pengembangan aplikasi sudah tersedia dan siap pakai:
 
-## Learning Laravel
+* **Manajemen Autentikasi**: Sistem login yang aman untuk melindungi halaman admin Anda.
+* **Manajemen Profil**: Halaman khusus bagi setiap pengguna untuk memperbarui data pribadi mereka (nama, username, email, dan password) dengan aman.
+* **Role-Based Access Control (RBAC) Lengkap**:
+    * **Manajemen Role**: Buat, baca, perbarui, dan hapus *role* (jabatan) dengan mudah melalui antarmuka.
+    * **Manajemen Permission**: Atur izin atau wewenang untuk setiap aksi (misalnya `product.create`, `user.delete`).
+    * **Hak Akses Dinamis**: Tetapkan *permission* dan akses menu yang spesifik untuk setiap *role*.
+    * **Relasi User-Role**: Setiap pengguna dapat diberi satu peran spesifik yang menentukan hak akses mereka di seluruh aplikasi.
+* **Manajemen Menu Dinamis**:
+    * Sidebar navigasi sepenuhnya dikontrol dari database.
+    * Mendukung hingga 2 level menu (menu induk dan sub-menu).
+    * Menu yang tampil akan otomatis menyesuaikan dengan hak akses *role* pengguna yang sedang login.
+* **Audit Trail (Jejak Audit)**:
+    * Komponen penting untuk melacak semua aktivitas di dalam sistem.
+    * Mencatat setiap aksi (Create, Update, Delete), lengkap dengan detail perubahan dan siapa yang melakukannya.
+* **Otorisasi via Laravel Gates**:
+    * Sistem izin diimplementasikan menggunakan `Gate` bawaan Laravel, yang terhubung langsung dengan *permission* di database.
+* **Querying Fleksibel**:
+    * Dibangun di atas **Eloquent ORM** Laravel, namun Anda tetap bisa menggunakan **Query Builder** jika dibutuhkan.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🛠️ Teknologi yang Digunakan
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* **Backend**: Laravel 12
+* **Frontend**: Mazer Admin Dashboard (Bootstrap 5)
+* **Interaktivitas**: Alpine.js (terintegrasi global)
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Panduan Instalasi
 
-### Premium Partners
+Berikut adalah langkah-langkah untuk menjalankan proyek ini di lingkungan lokal Anda.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+1.  **Clone Repositori**
+    ```bash
+    git clone https://github.com/rakahikmah/laravel-starter-kit
+    cd nama-folder-proyek
+    ```
 
-## Contributing
+2.  **Instal Dependensi Composer**
+    ```bash
+    composer install
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3.  **Setup File `.env`**
+    Salin file `.env.example`, lalu *generate* kunci aplikasi.
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+    Setelah itu, buka file `.env` dan sesuaikan konfigurasi database Anda (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`).
 
-## Code of Conduct
+4.  **Setup Database**
+    *  Impor file `laravel_starter_kit.sql` yang sudah disediakan ke dalam *database manager* Anda (misalnya phpMyAdmin atau DBeaver atau lainnya).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+5.  **Jalankan Aplikasi**
+    Gunakan `php artisan serve` atau *virtual host* dari Laragon, XAMPP, atau Docker.
+    ```bash
+    php artisan serve
+    ```
+    Aplikasi Anda akan berjalan di `http://127.0.0.1:8000`.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 🔑 Akun Default
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Setelah instalasi selesai, Anda bisa login menggunakan akun admin bawaan:
+* **Email**: `admin@gmail.com`
+* **Password**: `password`
+
+---
+
+## 📸 Tampilan Aplikasi
+
+
+![Tampilan 1](docs/Lampiran-1.png) 
+![Tampilan 2](docs/Lampiran-2.png)
+![Tampilan 3](docs/Lampiran-3.png)
+![Tampilan 4](docs/Lampiran-4.png)
+![Tampilan 5](docs/Lampiran-5.png)
+![Tampilan 6](docs/Lampiran-6.png)
+---
+
+## 💡 Eksplorasi & Pengembangan Lanjutan
+
+Starter kit ini adalah fondasi yang kokoh. Anda sangat dianjurkan untuk mengeksplorasi dan mengembangkannya lebih jauh dengan teknologi lain seperti:
+* jQuery
+* Livewire
+* Inertia.js dengan Vue atau React
+
+---
+
+## 🙏 Ucapan Terima Kasih
+
+Tampilan admin dashboard ini menggunakan *template open-source* **Mazer** yang luar biasa. Terima kasih kepada **Ahmad Saugi** atas karyanya.
+* **Repositori Mazer**: [https://github.com/zuramai/mazer](https://github.com/zuramai/mazer)
+* **Dokumentasi**: [https://zuramai.github.io/mazer/](https://zuramai.github.io/mazer/)
+
+---
+
+## 📬 Kontak
+
+Semoga *starter kit* ini bisa membantu Anda. Jika ada pertanyaan atau masukan, boleh langsung hubungi saya aja
+* **Email**: [rakahikmah46@gmail.com](mailto:rakahikmah46@gmail.com)
+* **LinkedIn**: [https://www.linkedin.com/in/rakahikmahramadhan/](https://www.linkedin.com/in/rakahikmahramadhan/)
+
+---
+
+## 📄 Lisensi
+Copyright © 2025 **Raka Hikmah Ramadhan**. Proyek ini dilisensikan di bawah [MIT License](LICENSE.md).

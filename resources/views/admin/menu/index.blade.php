@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="page-heading">
-        <h3>Manajemen Menu</h3>
+        <h3>{{$pageTitle ?? 'Default Judul'}}</h3>
     </div>
 
     <div class="page-content">
@@ -25,10 +25,10 @@
                             <div class="card-header">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5 class="card-title">Daftar Menu</h5>
-                                    {{-- @can('permission.create') --}}
+                                    @can('permission.create')
                                     <a href="{{ route('menus.create') }}" class="btn btn-primary"><i
                                             class="bi bi-plus-lg"></i> Tambah Menu</a>
-                                    {{-- @endcan --}}
+                                    @endcan
                                 </div>
 
                             </div>
@@ -60,14 +60,14 @@
                                                 </td>
                                                 <td><i class="{{ $menu->icon }}"></i></td>
                                                 <td class="text-center">
-                                                    {{-- @can('menu.edit') --}}
+                                                    @can('menu.edit')
                                                     <a href="{{ route('menus.edit', $menu) }}"
                                                         class="btn btn-sm btn-warning">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
-                                                    {{-- @endcan --}}
+                                                    @endcan
 
-                                                    {{-- @can('menu.delete') --}}
+                                                    @can('menu.delete')
                                                     <form action="{{ route('menus.destroy', $menu) }}" method="POST"
                                                         class="d-inline" id="delete-form-{{ $menu->id }}">
                                                         @csrf
@@ -79,7 +79,7 @@
                                                             <i class="bi bi-trash3-fill"></i>
                                                         </button>
                                                     </form>
-                                                    {{-- @endcan --}}
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @empty
