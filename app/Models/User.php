@@ -54,4 +54,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'role_user')->withTimestamps();
     }
+
+    public function bidan()
+    {
+        return $this->hasOne(Bidan::class, 'user_id', 'id');
+    }
+
+    public function pasien()
+    {
+        return $this->hasOne(Pasien::class, 'user_id', 'id');
+    }
 }

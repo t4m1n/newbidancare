@@ -1,65 +1,421 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Mazer Admin Dashboard</title>
+    <title>Masuk - Bidan Care</title>
     <link rel="shortcut icon" href="{{ asset('assets/compiled/svg/favicon.svg') }}" type="image/x-icon">
-    <link rel="shortcut icon"
-        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAiCAYAAADRcLDBAAAEs2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS41LjAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iCiAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgZXhpZjpQaXhlbFhEaW1lbnNpb249IjMzIgogICBleGlmOlBpeGVsWURpbWVuc2lvbj0iMzQiCiAgIGV4aWY6Q29sb3JTcGFjZT0iMSIKICAgdGlmZjpJbWFnZVdpZHRoPSIzMyIKICAgdGlmZjpJbWFnZUxlbmd0aD0iMzQiCiAgIHRpZmY6UmVzb2x1dGlvblVuaXQ9IjIiCiAgIHRpZmY6WFJlc29sdXRpb249Ijk2LjAiCiAgIHRpZmY6WVJlc29sdXRpb249Ijk2LjAiCiAgIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiCiAgIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIKICAgeG1wOk1vZGlmeURhdGU9IjIwMjItMDMtMzFUMTA6NTA6MjMrMDI6MDAiCiAgIHhtcDpNZXRhZGF0YURhdGU9IjIwMjItMDMtMzFUMTA6NTA6MjMrMDI6MDAiPgogICA8eG1wTU06SGlzdG9yeT4KICAgIDxyZGY6U2VxPgogICAgIDxyZGY6bGkKICAgICAgc3RFdnQ6YWN0aW9uPSJwcm9kdWNlZCIKICAgICAgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWZmaW5pdHkgRGVzaWduZXIgMS4xMC4xIgogICAgICBzdEV2dDp3aGVuPSIyMDIyLTAzLTMxVDEwOjUwOjIzKzAyOjAwIi8+CiAgICA8L3JkZjpTZXE+CiAgIDwveG1wTU06SGlzdG9yeT4KICA8L3JkZjpEZXNjcmlwdGlvbj4KIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+Cjw/eHBhY2tldCBlbmQ9InIiPz5V57uAAAABgmlDQ1BzUkdCIElFQzYxOTY2LTIuMQAAKJF1kc8rRFEUxz9maORHo1hYKC9hISNGTWwsRn4VFmOUX5uZZ36oeTOv954kW2WrKLHxa8FfwFZZK0WkZClrYoOe87ypmWTO7dzzud97z+nec8ETzaiaWd4NWtYyIiNhZWZ2TvE946WZSjqoj6mmPjE1HKWkfdxR5sSbgFOr9Ll/rXoxYapQVik8oOqGJTwqPL5i6Q5vCzeo6dii8KlwpyEXFL519LjLLw6nXP5y2IhGBsFTJ6ykijhexGra0ITl5bRqmWU1fx/nJTWJ7PSUxBbxJkwijBBGYYwhBgnRQ7/MIQIE6ZIVJfK7f/MnyUmuKrPOKgZLpEhj0SnqslRPSEyKnpCRYdXp/9++msneoFu9JgwVT7b91ga+LfjetO3PQ9v+PgLvI1xkC/m5A+h7F32zoLXug38dzi4LWnwHzjeg8UGPGbFfySvuSSbh9QRqZ6H+Gqrm3Z7l9zm+h+iafNUV7O5Bu5z3L/wAdthn7QIme0YAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAJTSURBVFiF7Zi9axRBGIefEw2IdxFBRQsLWUTBaywSK4ubdSGVIY1Y6HZql8ZKCGIqwX/AYLmCgVQKfiDn7jZeEQMWfsSAHAiKqPiB5mIgELWYOW5vzc3O7niHhT/YZvY37/swM/vOzJbIqVq9uQ04CYwCI8AhYAlYAB4Dc7HnrOSJWcoJcBS4ARzQ2F4BZ2LPmTeNuykHwEWgkQGAet9QfiMZjUSt3hwD7psGTWgs9pwH1hC1enMYeA7sKwDxBqjGnvNdZzKZjqmCAKh+U1kmEwi3IEBbIsugnY5avTkEtIAtFhBrQCX2nLVehqyRqFoCAAwBh3WGLAhbgCRIYYinwLolwLqKUwwi9pxV4KUlxKKKUwxC6ZElRCPLYAJxGfhSEOCz6m8HEXvOB2CyIMSk6m8HoXQTmMkJcA2YNTHm3congOvATo3tE3A29pxbpnFzQSiQPcB55IFmFNgFfEQeahaAGZMpsIJIAZWAHcDX2HN+2cT6r39GxmvC9aPNwH5gO1BOPFuBVWAZue0vA9+A12EgjPadnhCuH1WAE8ivYAQ4ohKaagV4gvxi5oG7YSA2vApsCOH60WngKrA3R9IsvQUuhIGY00K4flQG7gHH/mLytB4C42EgfrQb0mV7us8AAMeBS8mGNMR4nwHamtBB7B4QRNdaS0M8GxDEog7iyoAguvJ0QYSBuAOcAt71Kfl7wA8DcTvZ2KtOlJEr+ByyQtqqhTyHTIeB+ONeqi3brh+VgIN0fohUgWGggizZFTplu12yW8iy/YLOGWMpDMTPXnl+Az9vj2HERYqPAAAAAElFTkSuQmCC"
-        type="image/png">
-    <link rel="stylesheet" href="{{ asset('assets/compiled/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/compiled/css/app-dark.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/compiled/css/auth.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Warna Baru dari gambar */
+            --primary-color: #2f3a7e;
+            /* Biru navy tua */
+            --secondary-color: #fceaec;
+            /* Pink pucat */
+            --accent-color: #e4bcc4;
+            /* Pink pastel */
+            --light-blue: #bddad9;
+            /* Biru muda pastel */
+            --peach-color: #e79e8e;
+            /* Peach */
+            --dark-pink: #cf7a78;
+            /* Merah muda agak gelap */
+            --coral-color: #d7867b;
+            /* Coral */
+            --text-dark: #2C3E50;
+            --text-light: #6C757D;
+            --bg-gradient: linear-gradient(135deg, var(--light-blue) 0%, var(--secondary-color) 100%);
+            --card-shadow: 0 10px 30px rgba(47, 60, 126, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            max-width: 1000px;
+            width: 100%;
+            margin: 20px;
+            min-height: 600px;
+        }
+
+        .login-left {
+            padding: 50px 40px;
+            background: linear-gradient(145deg, #ffffff 0%, var(--secondary-color) 100%);
+            position: relative;
+        }
+
+        .login-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--dark-pink), var(--peach-color));
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), #3c498a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 25px rgba(47, 60, 126, 0.2);
+        }
+
+        .logo-icon i {
+            font-size: 40px;
+            color: white;
+        }
+
+        .app-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .app-subtitle {
+            color: var(--text-light);
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        .form-floating {
+            margin-bottom: 25px;
+        }
+
+        .form-floating>.form-control {
+            height: 60px;
+            border: 2px solid #E5E5E5;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-floating>.form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(47, 60, 126, 0.15);
+        }
+
+        .form-floating>label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary-color), #3c498a);
+            border: none;
+            height: 55px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(47, 60, 126, 0.3);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(47, 60, 126, 0.4);
+        }
+
+        .btn-register {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-register:hover {
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+        }
+
+        .login-right {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .illustration {
+            text-align: center;
+            color: white;
+            z-index: 2;
+            position: relative;
+        }
+
+        .illustration-icon {
+            font-size: 120px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .illustration h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .illustration p {
+            font-size: 18px;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            font-size: 60px;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            font-size: 40px;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            font-size: 50px;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .alert {
+            border: none;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--coral-color);
+        }
+
+        .alert-danger {
+            background: var(--secondary-color);
+            color: var(--dark-pink);
+        }
+
+        .feature-points {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #E5E5E5;
+        }
+
+        .feature-point {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .feature-point i {
+            color: var(--primary-color);
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                margin: 10px;
+            }
+
+            .login-left {
+                padding: 30px 25px;
+            }
+
+            .app-title {
+                font-size: 26px;
+            }
+
+            .logo-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .logo-icon i {
+                font-size: 30px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <script src="{{ asset('assets/static/js/initTheme.js') }}"></script>
-    <div id="auth">
-
-        <div class="row h-100">
+    <div class="login-container">
+        <div class="row h-100 g-0">
+            <!-- Left Side - Login Form -->
             <div class="col-lg-5 col-12">
-                <div id="auth-left">
-                    <div class="auth-logo">
-                        <a href="index.html"><img src="{{ asset('assets/compiled/svg/logo.svg') }}" alt="Logo"></a>
+                <div class="login-left h-100 d-flex flex-column justify-content-center">
+                    <div class="logo-section">
+                        <div class="logo-icon">
+                            <i class="bi bi-heart-pulse"></i>
+                        </div>
+                        <h1 class="app-title">Bidan Care</h1>
+                        <p class="app-subtitle">Menghubungkan Bidan dan Pasien untuk Layanan Kebidanan Terbaik</p>
                     </div>
-                    <h1 class="auth-title">Laravel Starter Kit</h1>
-                    <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
+
                     @error('login')
-                        <div class="alert alert-light-danger color-danger"><i class="bi bi-exclamation-circle"></i> This
-                            {{ $message }}
-                        </div>
+                    <div class="alert alert-danger">
+                        <i class="bi bi-exclamation-circle me-2"></i>
+                        {{ $message }}
+                    </div>
                     @enderror
+
                     <form action="{{ route('login') }}" method="POST">
-                        @csrf {{-- 1. Tambahkan CSRF Token --}}
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text"
-                                class="form-control form-control-xl @error('login') is-invalid @enderror"
-                                placeholder="Email" name="login" value="{{ old('login') }}" required>
-                            <div class="form-control-icon">
-                                <i class="bi bi-person"></i>
-                            </div>
+                        @csrf
+                        <div class="form-floating">
+                            <input type="email"
+                                class="form-control @error('login') is-invalid @enderror"
+                                id="email"
+                                name="login"
+                                placeholder="name@example.com"
+                                value="{{ old('login') }}"
+                                required>
+                            <label for="email">
+                                <i class="bi bi-envelope me-2"></i>Email
+                            </label>
                         </div>
-                        <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="password" class="form-control form-control-xl" placeholder="Password"
-                                name="password" required>
-                            <div class="form-control-icon">
-                                <i class="bi bi-shield-lock"></i>
-                            </div>
+
+                        <div class="form-floating">
+                            <input type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Password"
+                                required>
+                            <label for="password">
+                                <i class="bi bi-lock me-2"></i>Kata Sandi
+                            </label>
                         </div>
-                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Log in</button>
+
+                        <button type="submit" class="btn btn-login">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>
+                            Masuk ke Akun
+                        </button>
                     </form>
+
+                    <div class="text-center mt-4">
+                        <p class="mb-3">Belum memiliki akun?</p>
+                        <a href="{{ route('register') }}" class="btn-register">
+                            <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
+                        </a>
+                    </div>
+
+                    <div class="feature-points">
+                        <div class="feature-point">
+                            <i class="bi bi-shield-check"></i>
+                            <span>Platform terpercaya dan aman</span>
+                        </div>
+                        <div class="feature-point">
+                            <i class="bi bi-clock"></i>
+                            <span>Layanan 24/7</span>
+                        </div>
+                        <div class="feature-point">
+                            <i class="bi bi-people"></i>
+                            <span>Bidan profesional dan berpengalaman</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-7 d-none d-lg-block">
-                <div id="auth-right">
 
+            <!-- Right Side - Illustration -->
+            <div class="col-lg-7 d-none d-lg-block">
+                <div class="login-right h-100">
+                    <div class="floating-elements">
+                        <div class="floating-element">
+                            <i class="bi bi-heart-pulse-fill"></i>
+                        </div>
+                        <div class="floating-element">
+                            <i class="bi bi-shield-plus"></i>
+                        </div>
+                        <div class="floating-element">
+                            <i class="bi bi-bandaid"></i>
+                        </div>
+                    </div>
+
+                    <div class="illustration">
+                        <div class="illustration-icon">
+                            <i class="bi bi-person-hearts"></i>
+                        </div>
+                        <h3>Selamat Datang di Bidan Care</h3>
+                        <p>
+                            Platform digital yang menghubungkan ibu hamil dan keluarga
+                            dengan bidan profesional untuk mendapatkan layanan kebidanan
+                            berkualitas tinggi kapan saja dan di mana saja.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
