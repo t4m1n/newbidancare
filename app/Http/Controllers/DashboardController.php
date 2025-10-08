@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bidan;
 use App\Models\Kabupaten;
+use App\Models\Order;
 use App\Models\Pasien;
 use App\Models\Provinsi;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -32,6 +33,22 @@ class DashboardController extends Controller
             ->groupBy('pasiens.idkabupaten')
             ->count();
 
+        $countOrderOrder = Order::where('bidan_id', $bidan->id ?? 0)
+            ->where('status', 'Order')
+            ->count();
+
+        $countOrderDiterima = Order::where('bidan_id', $bidan->id ?? 0)
+            ->where('status', 'Diterima')
+            ->count();
+
+        $countOrderDitolak = Order::where('bidan_id', $bidan->id ?? 0)
+            ->where('status', 'Ditolak')
+            ->count();
+
+        $countOrderSelesai = Order::where('bidan_id', $bidan->id ?? 0)
+            ->where('status', 'Selesai')
+            ->count();
+
         return view(
             'dashboard',
             compact(
@@ -43,7 +60,11 @@ class DashboardController extends Controller
                 'countPengajuan',
                 'countTerdaftar',
                 'countPasien',
-                'countBidanTerdekat'
+                'countBidanTerdekat',
+                'countOrderOrder',
+                'countOrderDiterima',
+                'countOrderDitolak',
+                'countOrderSelesai'
             )
         );
     }
@@ -57,6 +78,49 @@ class DashboardController extends Controller
         return response()->json($kabupatens);
     }
 
+    // public function storeOrUpdate(Request $request)
+    // {
+    //     // Validasi input
+    //     $validated = $request->validate([
+    //         'user_id' => 'required',
+    //         'idprovinsi' => 'required',
+    //         'idkabupaten' => 'required',
+    //         'alamat' => 'required|string',
+    //         // 'nohp' => ['required', 'regex:/^\+62\d{10,15}$/'], // Validasi nomor WhatsApp
+    //         'nohp' => 'required', // Validasi nomor WhatsApp
+    //         'bersedia' => 'nullable|in:0,1', // Validasi nilai 0 atau 1 untuk bersedia
+    //         'str' => 'required|string',
+    //         'longitude' => 'required|string',
+    //         'latitude' => 'required|string',
+    //         'keterangan' => 'nullable|string',
+    //     ]);
+
+    //     // Tentukan ID bidan (jika ada, kita update berdasarkan id tersebut, jika tidak, kita buat baru)
+    //     $bidanId = $request->id ?? (string) Str::uuid(); // Misalnya Anda mengirimkan id di form jika ingin melakukan update
+
+    //     // Jika ada id, maka update, jika tidak ada maka create
+    //     $bidan = Bidan::updateOrCreate(
+    //         ['id' => $bidanId], // Mencari berdasarkan id jika ada
+    //         [
+    //             'statusenabled' => 1,
+    //             'user_id' => $request->user_id,
+    //             'idprovinsi' => $request->idprovinsi,
+    //             'idkabupaten' => $request->idkabupaten,
+    //             'alamat' => $request->alamat,
+    //             'nohp' => $request->nohp,
+    //             'keterangan' => $request->keterangan,
+    //             'str' => $request->str,
+    //             'bersedia' => $request->bersedia ? 1 : 0,
+    //             'longitude' => $request->longitude,
+    //             'latitude' => $request->latitude,
+    //             'approv' => 0,
+    //         ]
+    //     );
+
+    //     // Redirect atau respons lainnya setelah berhasil menyimpan atau memperbarui data
+    //     return redirect()->route('dashboard')->with('success', 'Data Bidan berhasil disimpan/diupdate');
+    // }
+
     public function storeOrUpdate(Request $request)
     {
         // Validasi input
@@ -65,17 +129,24 @@ class DashboardController extends Controller
             'idprovinsi' => 'required',
             'idkabupaten' => 'required',
             'alamat' => 'required|string',
-            // 'nohp' => ['required', 'regex:/^\+62\d{10,15}$/'], // Validasi nomor WhatsApp
             'nohp' => 'required', // Validasi nomor WhatsApp
             'bersedia' => 'nullable|in:0,1', // Validasi nilai 0 atau 1 untuk bersedia
             'str' => 'required|string',
             'longitude' => 'required|string',
             'latitude' => 'required|string',
             'keterangan' => 'nullable|string',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi gambar
         ]);
 
         // Tentukan ID bidan (jika ada, kita update berdasarkan id tersebut, jika tidak, kita buat baru)
         $bidanId = $request->id ?? (string) Str::uuid(); // Misalnya Anda mengirimkan id di form jika ingin melakukan update
+
+        // Jika ada file foto, simpan foto tersebut
+        $photoPath = null;
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+            $photoPath = $photo->storeAs('photos', Str::random(40) . '.' . $photo->getClientOriginalExtension(), 'public');
+        }
 
         // Jika ada id, maka update, jika tidak ada maka create
         $bidan = Bidan::updateOrCreate(
@@ -93,12 +164,14 @@ class DashboardController extends Controller
                 'longitude' => $request->longitude,
                 'latitude' => $request->latitude,
                 'approv' => 0,
+                'photo' => $photoPath, // Simpan path foto jika ada
             ]
         );
 
         // Redirect atau respons lainnya setelah berhasil menyimpan atau memperbarui data
         return redirect()->route('dashboard')->with('success', 'Data Bidan berhasil disimpan/diupdate');
     }
+
 
     public function storeOrUpdatePasien(Request $request)
     {

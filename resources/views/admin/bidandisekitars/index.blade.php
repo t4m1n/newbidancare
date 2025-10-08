@@ -262,10 +262,8 @@
         <div class="col-12 col-lg-6 col-md-12">
             <div class="comment">
                 <div class="comment-header">
-                    <div class="pr-50">
-                        <div class="avatar avatar-2xl">
-                            <img src="./assets/compiled/jpg/2.jpg" alt="Avatar">
-                        </div>
+                    <div>
+                        <img src="{{ $bidandisekitar->photo ? asset('storage/' . $bidandisekitar->photo) : asset('./assets/compiled/jpg/3.jpg') }}" alt="Avatar" style="max-width: 150px; max-height: 190px; width: auto; height: auto;">
                     </div>
                     <div class="comment-body">
                         <div class="comment-profileName"><u>{{ $bidandisekitar->name }}</u></div>

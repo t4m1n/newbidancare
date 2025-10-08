@@ -60,6 +60,7 @@ class Bidan extends Model
         'longitude',
         'latitude',
         'approv',
+        'photo',
 
     ];
 

@@ -84,7 +84,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/checkout', [CheckoutController::class, 'store']);
     Route::get('/checkout/order', [CheckoutController::class, 'order'])->name('checkout.order');
+    Route::get('/checkout/order-pasien', [CheckoutController::class, 'order'])->name('checkout.order');
     Route::get('/checkout/{id}/detail', [CheckoutController::class, 'orderDetail'])->name('checkout.detail');
+    Route::post('/checkout/{id}/terima', [CheckoutController::class, 'terima'])->name('checkout.terima');
+    Route::post('/checkout/{id}/tolak', [CheckoutController::class, 'tolak'])->name('checkout.tolak');
+    Route::post('/checkout/{id}/selesai', [CheckoutController::class, 'selesai'])->name('checkout.selesai');
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });

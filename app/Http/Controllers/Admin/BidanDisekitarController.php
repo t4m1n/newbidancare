@@ -31,7 +31,8 @@ class BidanDisekitarController extends Controller
                 'provinsi.namaprovinsi',
                 'kabupaten.namakabupaten'
             )
-            ->paginate(10);
+            ->get();
+            // ->paginate(10);
 
         // Kirim data ke view
         return view('admin.bidandisekitars.index', compact('bidandisekitars'));

@@ -19,9 +19,10 @@
         <div class="row h-100">
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
-                    <div class="auth-logo">
-                        <a href="{{ route('login') }}"><img src="{{ asset('assets/compiled/svg/logo.svg') }}" alt="Logo"></a>
-                    </div>
+                    <!-- <div class="auth-logo">
+                        <a href="{{ route('login') }}"><img src="{{ asset('assets/compiled/png/icon.png') }}" alt="Logo"></a>
+                    </div> -->
+                    <div class="logo">Bidan Care</div>
                     <h1 class="auth-title">Create an Account</h1>
                     <p class="auth-subtitle mb-5">Register with your details to create a new account.</p>
 

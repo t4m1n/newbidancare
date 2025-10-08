@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Bidan;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Pasien;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,25 +72,51 @@ class CheckoutController extends Controller
     public function order(Request $request)
     {
         $bidan = Bidan::where('user_id', Auth::user()->id)->first();
+        $pasien = Pasien::where('user_id', Auth::user()->id)->first();
 
-        $orders = DB::table('order_t as o')
-            ->join('bidans as bd', 'o.bidan_id', '=', 'bd.id')
-            ->join('pasiens as ps', 'o.pasien_id', '=', 'ps.id')
-            ->join('users as ubd', 'bd.user_id', '=', 'ubd.id')
-            ->join('users as ups', 'ps.user_id', '=', 'ups.id')
-            ->select(
-                'o.*',
-                'ubd.name as namabidan',
-                'ups.name as namapasien',
-                'ps.nohp',
-                'ps.keterangan'
-            )
-            ->where('o.bidan_id', $bidan->id)
-            ->when($request->status, function ($query, $status) {
-                return $query->where('o.Order', $status);
-            })
-            ->orderBy('o.tglorder', 'desc')
-            ->paginate(10);
+        if ($bidan) {
+            $orders = DB::table('order_t as o')
+                ->join('bidans as bd', 'o.bidan_id', '=', 'bd.id')
+                ->join('pasiens as ps', 'o.pasien_id', '=', 'ps.id')
+                ->join('users as ubd', 'bd.user_id', '=', 'ubd.id')
+                ->join('users as ups', 'ps.user_id', '=', 'ups.id')
+                ->select(
+                    'o.*',
+                    'ubd.name as namabidan',
+                    'ups.name as namapasien',
+                    'ps.nohp',
+                    'ps.keterangan'
+                )
+                ->where('o.bidan_id', $bidan->id)
+                ->when($request->status, function ($query, $status) {
+                    return $query->where('o.Order', $status);
+                })
+                ->orderBy('o.tglorder', 'desc')
+                ->paginate(10);
+        } elseif ($pasien) {
+            $orders = DB::table('order_t as o')
+                ->join('bidans as bd', 'o.bidan_id', '=', 'bd.id')
+                ->join('pasiens as ps', 'o.pasien_id', '=', 'ps.id')
+                ->join('users as ubd', 'bd.user_id', '=', 'ubd.id')
+                ->join('users as ups', 'ps.user_id', '=', 'ups.id')
+                ->select(
+                    'o.*',
+                    'ubd.name as namabidan',
+                    'ups.name as namapasien',
+                    'ps.nohp',
+                    'ps.keterangan'
+                )
+                ->where('o.pasien_id', $pasien->id)
+                ->when($request->status, function ($query, $status) {
+                    return $query->where('o.status', $status);
+                })
+                ->orderBy('o.tglorder', 'desc')
+                ->paginate(10);
+        } else {
+            $orders = collect(); // Jika bukan bidan atau pasien, kembalikan koleksi kosong
+        }
+
+
 
         return view('admin.checkouts.index', compact('orders'));
     }
@@ -118,5 +145,35 @@ class CheckoutController extends Controller
             ->get();
 
         return view('admin.checkouts.detail', compact('order', 'orderdetails'));
+    }
+
+    public function terima($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = 'Diterima';
+        $order->tglselesai = date('Y-m-d H:i:s');
+        $order->save();
+
+        return redirect()->back()->with('success', 'Pesanan diterima.');
+    }
+
+    public function tolak($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = 'Ditolak';
+        $order->tglselesai = date('Y-m-d H:i:s');
+        $order->save();
+
+        return redirect()->back()->with('error', 'Pesanan ditolak.');
+    }
+
+    public function selesai($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = 'Selesai';
+        $order->tglselesai = date('Y-m-d H:i:s');
+        $order->save();
+
+        return redirect()->back()->with('error', 'Pesanan selesai.');
     }
 }

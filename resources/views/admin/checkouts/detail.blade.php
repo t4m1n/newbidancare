@@ -43,12 +43,25 @@
                         <tr>
                             <td>No. HP</td>
                             <th>: {{$order->nohp}} <a href="https://wa.me/{{$order->nohp}}" class="btn btn-success" target="_blank">
-                                    <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                                    <i class="fab fa-whatsapp"></i>WhatsApp
                                 </a></th>
                         </tr>
                         <tr>
                             <td>Keterangan</td>
                             <th>: {{$order->keterangan}}</th>
+                        </tr>
+                        <tr>
+                            <td>Status Order</td>
+                            <th>: @if ($order->status === 'Order')
+                                <span class="badge bg-warning">{{ $order->status }}</span>
+                                @elseif($order->status === 'Diterima')
+                                <span class="badge bg-success">{{ $order->status }}</span>
+                                @elseif($order->status === 'Ditolak')
+                                <span class="badge bg-danger">{{ $order->status }}</span>
+                                @elseif($order->status === 'Selesai')
+                                <span class="badge bg-info">{{ $order->status }}</span>
+                                @endif
+                            </th>
                         </tr>
                     </tbody>
                 </table>
@@ -92,6 +105,42 @@
                 </table>
             </div>
         </div>
+        <div class="card-footer text-center">
+
+            @if ($order->status === 'Order')
+
+            @can('checkout.terima')
+            <form action="{{ route('checkout.terima', $order->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menerima pesanan ini?')">
+                @csrf
+                <button type="submit" class="btn btn-success">
+                    Terima
+                </button>
+            </form>
+            @endcan
+
+            @can('checkout.tolak')
+            <form action="{{ route('checkout.tolak', $order->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menolak pesanan ini?')">
+                @csrf
+                <button type="submit" class="btn btn-danger">
+                    Tolak
+                </button>
+            </form>
+            @endcan
+
+            @elseif($order->status === 'Diterima')
+            @can('checkout.selesai')
+            <form action="{{ route('checkout.selesai', $order->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menyelesaikan pesanan ini?')">
+                @csrf
+                <button type="submit" class="btn btn-info">
+                    Selesai
+                </button>
+            </form>
+            @endcan
+
+            @endif
+
+        </div>
+
     </div>
 </div>
 @endsection

@@ -3,13 +3,13 @@
 @section('content')
 
 <div class="page-heading">
-    <h3>Profile Statistics</h3>
+    <h3>Profile Statistics :: Selamat Datang, {{Auth::user()->name}}</h3>
 </div>
 <div class="page-content">
     <section class="row">
         <div class="col-12 col-lg-12">
             <div class="row">
-                @if ($user->roles->first()->id === 5 || $user->roles->first()->id === 1)
+                @if ($user->roles->first()->id === 1)
                 <div class="col-6 col-lg-3 col-md-6">
                     <div class="card">
                         <div class="card-body px-4 py-4-5">
@@ -29,7 +29,7 @@
                 </div>
                 @endif
 
-                @if ($user->roles->first()->id === 5 || $user->roles->first()->id === 1)
+                @if ($user->roles->first()->id === 1)
                 <div class="col-6 col-lg-3 col-md-6">
                     <div class="card">
                         <div class="card-body px-4 py-4-5">
@@ -69,6 +69,66 @@
                 </div>
                 @endif
 
+                @if ($user->roles->first()->id === 5)
+                <div class="col-6 col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body px-4 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                    <div class="stats-icon purple mb-2">
+                                        <i class="iconly-boldShow"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                    <h6 class="text-muted font-semibold">Order Belum Dilayani</h6>
+                                    <h6 class="font-extrabold mb-0">{{$countOrderOrder}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+                @if ($user->roles->first()->id === 5)
+                <div class="col-6 col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body px-4 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                    <div class="stats-icon green mb-2">
+                                        <i class="iconly-boldProfile"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                    <h6 class="text-muted font-semibold">Order Selesai Dilayani</h6>
+                                    <h6 class="font-extrabold mb-0">{{$countOrderSelesai}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+                @if ($user->roles->first()->id === 5)
+                <div class="col-6 col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body px-4 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                    <div class="stats-icon red mb-2">
+                                        <i class="iconly-boldProfile"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                    <h6 class="text-muted font-semibold">Order Ditolak</h6>
+                                    <h6 class="font-extrabold mb-0">{{$countOrderDitolak}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
                 @if ($user->roles->first()->id === 6)
                 <div class="col-6 col-lg-3 col-md-6">
                     <div class="card">
@@ -89,8 +149,7 @@
                 </div>
                 @endif
 
-
-                <div class="col-6 col-lg-3 col-md-6">
+                <!-- <div class="col-6 col-lg-3 col-md-6">
                     <div class="card">
                         <div class="card-body px-4 py-4-5">
                             <div class="row">
@@ -106,7 +165,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
+
             </div>
         </div>
 
@@ -156,11 +216,34 @@
 
         <div class="card">
             <div class="card-body">
-                <form action="{{ isset($bidan) ? route('bidan.update', $bidan->id) : route('bidan.store') }}" method="POST">
+                <form action="{{ isset($bidan) ? route('bidan.update', $bidan->id) : route('bidan.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method(isset($bidan) ? 'PUT' : 'POST') <!-- Atur method menjadi PUT jika update -->
                     <div class="row">
                         <div class="col-md-6">
+
+                            <!-- Preview Image -->
+                            <div class="form-group">
+                                @if ($bidan->photo)
+                                <label for="photoPreview">Foto</label><br>
+                                <img src="{{ asset('storage/' . $bidan->photo) }}" alt="Foto Bidan" style="max-width: 30%; height: auto;">
+                                <br><br>
+                                @endif
+
+                                <label for="photoPreview">Preview Foto</label><br>
+                                <img id="photoPreview" src="{{ asset('storage/' . $bidan->photo) }}" alt="Preview Foto" style="display: none; max-width: 30%; height: auto;">
+                            </div>
+
+                            <!-- Tambahkan input untuk foto -->
+                            <div class="form-group">
+                                <label for="photo">Upload Foto</label>
+                                <input type="file" class="form-control @error('photo') is-invalid @enderror"
+                                    id="photo" name="photo" onchange="previewImage(event)">
+                                @error('photo')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <div class="form-group">
                                 <label for="name">Nama Lengkap</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
@@ -238,9 +321,12 @@
                                 @enderror
                             </div>
 
+                        </div>
+
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="keterangan">Deskripsikan Tentang Anda</label>
-                                <textarea name="keterangan" id="keterangan" class="form-control @error('keterangan') is-invalid @enderror" required>{{ old('keterangan', isset($bidan) ? $bidan->keterangan : null) }}</textarea>
+                                <textarea name="keterangan" id="keterangan" rows="5" class="form-control @error('keterangan') is-invalid @enderror" required>{{ old('keterangan', isset($bidan) ? $bidan->keterangan : null) }}</textarea>
                                 @error('keterangan')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -257,9 +343,6 @@
                                 @enderror
                             </div>
 
-                        </div>
-
-                        <div class="col-md-6">
                             <!-- Longitude dan Latitude inputs -->
                             <div class="form-group">
                                 <label for="longitude">Longitude</label>
@@ -600,5 +683,16 @@
                 document.getElementById('longitude').value = pos.lng;
             });
         }
+
     });
+
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('photoPreview');
+            output.style.display = 'block'; // Menampilkan gambar preview
+            output.src = reader.result; // Mengatur sumber gambar dengan hasil pembacaan
+        };
+        reader.readAsDataURL(event.target.files[0]); // Membaca file gambar yang dipilih
+    }
 </script>

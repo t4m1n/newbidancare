@@ -59,7 +59,7 @@ class ViewServiceProvider extends ServiceProvider
                 }
 
                 if ($menu) {
-                    $pageTitle = $menu->name;
+                    $pageTitle = $menu->name . " :: " . Auth::user()->name;
                 }
             }
 

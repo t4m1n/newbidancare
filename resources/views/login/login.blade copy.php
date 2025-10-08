@@ -22,7 +22,7 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div class="auth-logo">
-                        <a href="index.html"><img src="{{ asset('assets/compiled/svg/logo.svg') }}" alt="Logo"></a>
+                        <a href="index.html"><img src="{{ asset('assets/compiled/png/icon.png') }}" alt="Logo"></a>
                     </div>
                     <h1 class="auth-title">Laravel Starter Kit</h1>
                     <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>

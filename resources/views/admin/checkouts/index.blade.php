@@ -44,9 +44,9 @@
                             <td class="text-center">{{ $loop->iteration + $orders->firstItem() - 1 }}</td>
                             <td><span class="badge bg-light-secondary">{{ $order->namapasien }}</span></td>
                             <td>
-                                {{ $order->nohp }}
+                                <div>{{ $order->nohp }}</div>
                                 <a href="https://wa.me/{{$order->nohp}}" class="btn btn-success" target="_blank">
-                                    <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                                    <i class="fab fa-whatsapp"></i>WhatsApp
                                 </a>
                             </td>
                             <td>
@@ -55,14 +55,18 @@
                             <td>
                                 @if ($order->status === 'Order')
                                 <span class="badge bg-warning">{{ $order->status }}</span>
-                                @elseif($order->status === 'success')
+                                @elseif($order->status === 'Diterima')
                                 <span class="badge bg-success">{{ $order->status }}</span>
+                                @elseif($order->status === 'Ditolak')
+                                <span class="badge bg-danger">{{ $order->status }}</span>
+                                @elseif($order->status === 'Selesai')
+                                <span class="badge bg-info">{{ $order->status }}</span>
                                 @endif
                             </td>
                             <td>{{ $order->tglorder }}</td>
                             <td class="text-center">
-                                <a href="{{ route('checkout.detail', $order->id) }}" class="btn icon icon-left btn-success me-2 text-nowrap">
-                                    <i class="bi bi-eye-fill"></i> Detail Order
+                                <a href="{{ route('checkout.detail', $order->id) }}" class="btn icon icon-left btn-info me-2 text-nowrap">
+                                    <i class="bi bi-eye-fill"></i>
                                 </a>
                                 @can('order.edit')
                                 <a href="{{ route('oders.edit', $order) }}" class="btn btn-sm btn-warning">
